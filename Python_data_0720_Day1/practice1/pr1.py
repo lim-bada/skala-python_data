@@ -15,10 +15,13 @@
     - 2026-07-20: 데이터 파일 경로를 __file__ 기준으로 변경.
     - 2026-07-20: 상태코드 TOP 5 제목과 시간대별 요청 수 출력 추가.
     - 2026-07-20: 주요 함수의 입력, 처리 방식, 반환값 설명 추가.
+    - 2026-07-20: tracemalloc을 이용한 readlines·제너레이터 메모리 비교 추가.
 """
 
 # step1 - 한 줄을 '딕셔너리 하나'로 바꾸는 제너레이터 만들기
 import csv
+import gc
+import tracemalloc
 from pathlib import Path
 
 DATA_PATH = Path(__file__).resolve().parents[2] / 'data' / 'web_logs.csv'
@@ -114,3 +117,39 @@ for hour, cnt in sorted(by_hour.items()):
 print('\n-- 접속 상위 IP TOP 5 --')
 for ip, cnt in by_ip.most_common(5):
     print(f' {ip:<20}{cnt:>7,}')
+
+
+# 한 걸음 더 - readlines와 제너레이터의 최대 메모리 비교
+def count_with_readlines(path):
+    """CSV 전체 행을 리스트에 올린 뒤 헤더를 제외한 로그 건수를 반환한다."""
+    with open(path, encoding="utf-8") as file:
+        lines = file.readlines()
+    return max(len(lines) - 1, 0)
+
+
+def count_with_generator(path):
+    """제너레이터로 CSV를 한 행씩 처리해 로그 건수를 반환한다."""
+    return sum(1 for _ in read_logs(path))
+
+
+def measure_peak_memory(counter, path):
+    """집계 함수 실행 중 tracemalloc이 관찰한 건수와 최대 메모리를 반환한다."""
+    gc.collect()
+    tracemalloc.start()
+    count = counter(path)
+    _, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return count, peak / 1024 / 1024
+
+
+list_count, list_peak = measure_peak_memory(count_with_readlines, DATA_PATH)
+generator_count, generator_peak = measure_peak_memory(
+    count_with_generator,
+    DATA_PATH,
+)
+reduction = (1 - generator_peak / list_peak) * 100 if list_peak else 0
+
+print('\n-- 한 걸음 더: 최대 메모리 비교 --')
+print(f' readlines  : {list_count:>7,}건, {list_peak:>7.2f} MB')
+print(f' generator  : {generator_count:>7,}건, {generator_peak:>7.2f} MB')
+print(f' 메모리 절감률: {reduction:.1f}%')

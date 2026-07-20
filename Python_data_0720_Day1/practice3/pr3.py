@@ -28,15 +28,15 @@ from pathlib import Path
 
 
 # STEP 0 - 동기 버전의 실행 시간 측정
-# def fetch_sync(item_id):
-#     """네트워크 대기를 흉내 내고 단일 항목을 동기 방식으로 반환한다."""
-#     time.sleep(0.1) # 네트워크 대기를 흉내
-#     return {'id': item_id, 'ok': True}
+def fetch_sync(item_id):
+    """네트워크 대기를 흉내 내고 단일 항목을 동기 방식으로 반환한다."""
+    time.sleep(0.1) # 네트워크 대기를 흉내
+    return {'id': item_id, 'ok': True}
 
 
-# start = time.perf_counter()
-# results = [fetch_sync(i) for i in range(60)]
-# print(f'동기: {time.perf_counter() - start:.2f}초') # 약 6 초
+start = time.perf_counter()
+results = [fetch_sync(i) for i in range(60)]
+print(f'동기: {time.perf_counter() - start:.2f}초') # 약 6 초
 
 
 # STEP 1 - async/await 기본 문법
