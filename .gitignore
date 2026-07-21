@@ -1,6 +1,12 @@
 *.pdf
+*.docx
 .venv/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
 .DS_Store
+.vscode/
+**/output/
+*.log
+Advanced/REPORT.html
+re
