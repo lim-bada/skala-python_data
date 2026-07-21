@@ -1,4 +1,7 @@
 *.pdf
+!Python_data_0720_Day1/*.pdf
+!Python_data_0721_Day2/*.pdf
+!Advanced/*.pdf
 *.docx
 .venv/
 __pycache__/

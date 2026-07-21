@@ -163,6 +163,14 @@ python Advanced/advanced.py
 - [Advanced 실습 안내](Advanced/README.md)
 - [창의적 개인 실습 보고서](Advanced/REPORT.md)
 
+## 실행 결과 PDF 보고서
+
+최종 실행 화면과 결과 해석은 다음 PDF 보고서에서 확인할 수 있습니다.
+
+- [Day1 실행 화면 보고서](Python_data_0720_Day1/Day1_실행화면보고서.pdf)
+- [Day2 실행 화면 보고서](Python_data_0721_Day2/Day2_실행화면보고서.pdf)
+- [창의적 개인 실습 보고서](Advanced/Advanced_창의적실습_보고서.pdf)
+
 ## 테스트
 
 각 테스트 파일이 같은 폴더의 모듈을 불러오므로 해당 폴더에서 실행합니다.
@@ -223,8 +231,8 @@ python Advanced/build_report_word.py
 `.gitignore`는 다음 자동 생성·개인 환경 파일을 Git 추적에서 제외합니다.
 
 - `.venv/`, Python·Pytest·Ruff 캐시
-- PDF·Word 보고서와 중간 `REPORT.html`
+- 최상위 폴더의 강의 교안·가이드 PDF, Word 보고서와 중간 `REPORT.html`
 - 각 실습의 `output/` 산출물과 로그
 - `.DS_Store`, `.vscode/`
 
-소스 코드, Markdown 보고서와 보고서에 연결된 `Advanced/report_images/` 캡처는 저장소에 포함합니다.
+소스 코드, 각 실습 폴더의 최종 PDF, Markdown 보고서와 보고서에 연결된 `Advanced/report_images/` 캡처는 저장소에 포함합니다.
